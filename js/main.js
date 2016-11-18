@@ -1,8 +1,8 @@
 (function () {
 
   let loadTemplate = (templateName) => {
-    const node = document.createElement('span');
-    const template = document.getElementById(templateName);
+    let node = document.createElement('span');
+    let template = document.getElementById(templateName);
     let content = template.content ? template.content : template;
     node.appendChild(content);
     return node.cloneNode(true);
@@ -10,9 +10,9 @@
 
 
   // Rules
-  const rulesElement = loadTemplate('rules');
-  const rulesSubmit = rulesElement.querySelector('.rules__button');
-  const rulesInput = rulesElement.querySelector('.rules__input');
+  let rulesElement = loadTemplate('rules');
+  let rulesSubmit = rulesElement.querySelector('.rules__button');
+  let rulesInput = rulesElement.querySelector('.rules__input');
 
   rulesInput.oninput = () => {
     if (rulesInput.value) {
@@ -24,16 +24,16 @@
 
   // Slides changer
 
-  const mainElement = document.getElementById('main');
+  let mainElement = document.getElementById('main');
 
-  const switcher = document.createElement('div');
+  let switcher = document.createElement('div');
   switcher.innerHTML = '' +
     '<span class="prev"><img src="img/arrow_left.svg" alt="Left" width="50" height="50"></span>   ' +
     '<span class="next"><img src="img/arrow_right.svg" alt="Right" width="50" height="50"></span>';
   switcher.style.cssText = 'text-align: center';
   mainElement.after(switcher);
 
-  const slides = [
+  let slides = [
     loadTemplate('intro'),
     loadTemplate('greeting'),
     rulesElement,
