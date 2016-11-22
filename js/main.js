@@ -1,16 +1,15 @@
+import moduleIntro from './intro';
+import moduleGreeting from './greeting';
+import moduleRules from './rules';
+import moduleGame1 from './game-1';
+import moduleGame2 from './game-2';
+import moduleGame3 from './game-3';
+import moduleStats from './stats';
+
 (function () {
 
-  let loadTemplate = (templateName) => {
-    let node = document.createElement('span');
-    let template = document.getElementById(templateName);
-    let content = template.content ? template.content : template;
-    node.appendChild(content);
-    return node.cloneNode(true);
-  };
-
-
   // Rules
-  let rulesElement = loadTemplate('rules');
+  let rulesElement = moduleRules;
   let rulesSubmit = rulesElement.querySelector('.rules__button');
   let rulesInput = rulesElement.querySelector('.rules__input');
 
@@ -34,13 +33,13 @@
   mainElement.after(switcher);
 
   let slides = [
-    loadTemplate('intro'),
-    loadTemplate('greeting'),
+    moduleIntro,
+    moduleGreeting,
     rulesElement,
-    loadTemplate('game-1'),
-    loadTemplate('game-2'),
-    loadTemplate('game-3'),
-    loadTemplate('stats')
+    moduleGame1,
+    moduleGame2,
+    moduleGame3,
+    moduleStats
   ];
   let current = -1;
 
