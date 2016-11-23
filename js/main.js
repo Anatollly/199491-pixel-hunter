@@ -24,13 +24,15 @@ import moduleStats from './stats';
   // Slides changer
 
   let mainElement = document.getElementById('main');
+  let centralElement = document.querySelector('.central');
+  let footerElement = document.querySelector('.footer');
 
   let switcher = document.createElement('div');
   switcher.innerHTML = '' +
     '<span class="prev"><img src="img/arrow_left.svg" alt="Left" width="50" height="50"></span>   ' +
     '<span class="next"><img src="img/arrow_right.svg" alt="Right" width="50" height="50"></span>';
   switcher.style.cssText = 'text-align: center';
-  mainElement.after(switcher);
+  centralElement.insertBefore(switcher, footerElement);
 
   let slides = [
     moduleIntro,
