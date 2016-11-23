@@ -1,4 +1,4 @@
-const game1Elemet = `<header class="header">
+const game1Element = `<header class="header">
   <div class="header__back">
       <span class="back">
         <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
@@ -56,6 +56,6 @@ const game1Elemet = `<header class="header">
 
 import getElementFromTemplate from './template';
 
-const moduleGame1 = getElementFromTemplate(game1Elemet);
+const moduleGame1 = getElementFromTemplate(game1Element);
 
 export default moduleGame1;

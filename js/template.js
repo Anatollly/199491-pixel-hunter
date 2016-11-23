@@ -1,6 +1,7 @@
 const getElementFromTemplate = (nodeElement) => {
   let node = document.createElement('span');
-  node.innerHTML = nodeElement;
+  let trimElement = nodeElement.trim();
+  node.innerHTML = trimElement;
   return node;
 };
 

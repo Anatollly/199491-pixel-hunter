@@ -83,7 +83,6 @@ gulp.task('copy', ['copy-html', 'scripts', 'style'], function () {
 });
 
 gulp.task('clean', function () {
-  //return del('build');
 });
 
 gulp.task('serve', ['assemble'], function () {
