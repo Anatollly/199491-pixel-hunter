@@ -1,3 +1,7 @@
+import getElementFromTemplate from './template';
+import showScreen from './display';
+
+
 const statsElement = `<header class="header">
   <div class="header__back">
     <span class="back">
@@ -107,8 +111,10 @@ const statsElement = `<header class="header">
   </table>
 </div>`;
 
-import getElementFromTemplate from './template';
-
 const moduleStats = getElementFromTemplate(statsElement);
 
-export default moduleStats;
+const showStats = () => {
+  showScreen(moduleStats);
+};
+
+export default showStats;

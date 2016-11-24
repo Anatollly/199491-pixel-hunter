@@ -1,3 +1,7 @@
+import getElementFromTemplate from './template';
+import showScreen from './display';
+import showGame1 from './game-1';
+
 const rulesElement = `<header class="header">
   <div class="header__back">
     <span class="back">
@@ -23,8 +27,23 @@ const rulesElement = `<header class="header">
   </form>
 </div>`;
 
-import getElementFromTemplate from './template';
-
 const moduleRules = getElementFromTemplate(rulesElement);
+const rulesSubmit = moduleRules.querySelector('.rules__button');
+const rulesInput = moduleRules.querySelector('.rules__input');
 
-export default moduleRules;
+const showRules = () => {
+  showScreen(moduleRules);
+  rulesSubmit.addEventListener('click', (e) => {
+    e.preventDefault();
+    showGame1();
+  });
+  rulesInput.oninput = () => {
+    if (rulesInput.value) {
+      rulesSubmit.removeAttribute('disabled');
+    } else {
+      rulesSubmit.setAttribute('disabled', '');
+    }
+  };
+};
+
+export default showRules;
