@@ -1,5 +1,5 @@
 import getElementFromTemplate from './template';
-import showScreen from './display';
+import display from './display';
 import showGame1 from './game-1';
 
 const rulesElement = `<header class="header">
@@ -32,7 +32,7 @@ const rulesSubmit = moduleRules.querySelector('.rules__button');
 const rulesInput = moduleRules.querySelector('.rules__input');
 
 const showRules = () => {
-  showScreen(moduleRules);
+  display(moduleRules);
   rulesSubmit.addEventListener('click', (e) => {
     e.preventDefault();
     showGame1();

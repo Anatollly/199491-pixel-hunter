@@ -1,5 +1,5 @@
 import getElementFromTemplate from './template';
-import showScreen from './display';
+import display from './display';
 import showGame2 from './game-2';
 
 const game1Element = `<header class="header">
@@ -60,13 +60,14 @@ const game1Element = `<header class="header">
 
 const moduleGame1 = getElementFromTemplate(game1Element);
 const gameAnswer1 = moduleGame1.querySelectorAll('.game__answer');
+const loadGame2 = () => {
+  showGame2();
+};
 
 const showGame1 = () => {
-  showScreen(moduleGame1);
+  display(moduleGame1);
   for (let i = 0; i < gameAnswer1.length; i++) {
-    gameAnswer1[i].addEventListener('click', () => {
-      showGame2();
-    });
+    gameAnswer1[i].addEventListener('click', loadGame2);
   }
 };
 

@@ -1,5 +1,5 @@
 import getElementFromTemplate from './template';
-import showScreen from './display';
+import display from './display';
 
 
 const statsElement = `<header class="header">
@@ -114,7 +114,7 @@ const statsElement = `<header class="header">
 const moduleStats = getElementFromTemplate(statsElement);
 
 const showStats = () => {
-  showScreen(moduleStats);
+  display(moduleStats);
 };
 
 export default showStats;

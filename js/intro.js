@@ -1,5 +1,5 @@
 import getElementFromTemplate from './template';
-import showScreen from './display';
+import display from './display';
 import showGreeting from './greeting';
 
 const introElement = `<div id="intro" class="intro">
@@ -12,7 +12,7 @@ const moduleIntro = getElementFromTemplate(introElement);
 const asterisk = moduleIntro.querySelector('.intro__asterisk');
 
 const showIntro = () => {
-  showScreen(moduleIntro);
+  display(moduleIntro);
   asterisk.addEventListener('click', () => {
     showGreeting();
   });

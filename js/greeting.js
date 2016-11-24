@@ -1,5 +1,5 @@
 import getElementFromTemplate from './template';
-import showScreen from './display';
+import display from './display';
 import showRules from './rules';
 
 const greetingElement = `<div class="greeting  central--blur">
@@ -20,7 +20,7 @@ const moduleGreeting = getElementFromTemplate(greetingElement);
 const arrow = moduleGreeting.querySelector('.greeting__continue');
 
 const showGreeting = () => {
-  showScreen(moduleGreeting);
+  display(moduleGreeting);
   arrow.addEventListener('click', () => {
     showRules();
   });

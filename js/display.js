@@ -1,8 +1,8 @@
 const mainElement = document.getElementById('main');
 
-const showScreen = (element) => {
+const display = (element) => {
   mainElement.innerHTML = '';
   mainElement.appendChild(element);
 };
 
-export default showScreen;
+export default display;
