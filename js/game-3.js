@@ -1,6 +1,7 @@
 import getElementFromTemplate from './template';
 import display from './display';
 import showStats from './stats';
+import getResultStats from './resultStats';
 
 const game3Data = {
   header: {
@@ -62,16 +63,7 @@ const content = `<form class="game__content  game__content--triple">
 
 const stats = `<div class="stats">
     <ul class="stats">
-      <li class="stats__result ${game3Data.game.stats.result1}"></li>
-      <li class="stats__result ${game3Data.game.stats.result2}"></li>
-      <li class="stats__result ${game3Data.game.stats.result3}"></li>
-      <li class="stats__result ${game3Data.game.stats.result4}"></li>
-      <li class="stats__result ${game3Data.game.stats.result5}"></li>
-      <li class="stats__result ${game3Data.game.stats.result6}"></li>
-      <li class="stats__result ${game3Data.game.stats.result7}"></li>
-      <li class="stats__result ${game3Data.game.stats.result8}"></li>
-      <li class="stats__result ${game3Data.game.stats.result9}"></li>
-      <li class="stats__result ${game3Data.game.stats.result10}"></li>
+      ${getResultStats(game3Data.game.stats)}
     </ul>
   </div>`;
 

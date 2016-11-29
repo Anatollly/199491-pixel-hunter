@@ -1,5 +1,6 @@
 import getElementFromTemplate from './template';
 import display from './display';
+import getResultStats from './resultStats';
 
 const statsData = {
   result: 'Победа!',
@@ -94,16 +95,7 @@ const game1Result = `<table class="result__table">
     <td class="result__number">1.</td>
     <td colspan="2">
       <ul class="stats">
-      <li class="stats__result ${statsData.game1Result.resultGeneral.stats.result1}"></li>
-      <li class="stats__result ${statsData.game1Result.resultGeneral.stats.result2}"></li>
-      <li class="stats__result ${statsData.game1Result.resultGeneral.stats.result3}"></li>
-      <li class="stats__result ${statsData.game1Result.resultGeneral.stats.result4}"></li>
-      <li class="stats__result ${statsData.game1Result.resultGeneral.stats.result5}"></li>
-      <li class="stats__result ${statsData.game1Result.resultGeneral.stats.result6}"></li>
-      <li class="stats__result ${statsData.game1Result.resultGeneral.stats.result7}"></li>
-      <li class="stats__result ${statsData.game1Result.resultGeneral.stats.result8}"></li>
-      <li class="stats__result ${statsData.game1Result.resultGeneral.stats.result9}"></li>
-      <li class="stats__result ${statsData.game1Result.resultGeneral.stats.result10}"></li>
+        ${getResultStats(statsData.game1Result.resultGeneral.stats)}
       </ul>
     </td>
     <td class="result__points">×&nbsp;${statsData.game1Result.resultGeneral.points}</td>
@@ -140,16 +132,7 @@ const game2Result = `<table class="result__table">
     <td class="result__number">2.</td>
     <td>
       <ul class="stats">
-        <li class="stats__result ${statsData.game2Result.stats.result1}"></li>
-        <li class="stats__result ${statsData.game2Result.stats.result2}"></li>
-        <li class="stats__result ${statsData.game2Result.stats.result3}"></li>
-        <li class="stats__result ${statsData.game2Result.stats.result4}"></li>
-        <li class="stats__result ${statsData.game2Result.stats.result5}"></li>
-        <li class="stats__result ${statsData.game2Result.stats.result6}"></li>
-        <li class="stats__result ${statsData.game2Result.stats.result7}"></li>
-        <li class="stats__result ${statsData.game2Result.stats.result8}"></li>
-        <li class="stats__result ${statsData.game2Result.stats.result9}"></li>
-        <li class="stats__result ${statsData.game2Result.stats.result10}"></li>
+        ${getResultStats(statsData.game2Result.stats)}
       </ul>
     </td>
     <td class="result__total"></td>
@@ -162,16 +145,7 @@ const game3Result = `  <table class="result__table">
       <td class="result__number">3.</td>
       <td colspan="2">
         <ul class="stats">
-          <li class="stats__result ${statsData.game3Result.resultGeneral.stats.result1}"></li>
-          <li class="stats__result ${statsData.game3Result.resultGeneral.stats.result2}"></li>
-          <li class="stats__result ${statsData.game3Result.resultGeneral.stats.result3}"></li>
-          <li class="stats__result ${statsData.game3Result.resultGeneral.stats.result4}"></li>
-          <li class="stats__result ${statsData.game3Result.resultGeneral.stats.result5}"></li>
-          <li class="stats__result ${statsData.game3Result.resultGeneral.stats.result6}"></li>
-          <li class="stats__result ${statsData.game3Result.resultGeneral.stats.result7}"></li>
-          <li class="stats__result ${statsData.game3Result.resultGeneral.stats.result8}"></li>
-          <li class="stats__result ${statsData.game3Result.resultGeneral.stats.result9}"></li>
-          <li class="stats__result ${statsData.game3Result.resultGeneral.stats.result10}"></li>
+          ${getResultStats(statsData.game3Result.resultGeneral.stats)}
         </ul>
       </td>
       <td class="result__points">×&nbsp;${statsData.game3Result.resultGeneral.points}</td>
