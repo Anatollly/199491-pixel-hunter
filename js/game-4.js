@@ -1,4 +1,4 @@
-import showGame3 from './game-3';
+import showGame5 from './game-5';
 import showNextGame from './game-element';
 
 const gameData = {
@@ -27,8 +27,8 @@ const gameData = {
   }
 };
 
-const showGame2 = () => {
-  showNextGame(gameData, showGame3);
+const showGame4 = () => {
+  showNextGame(gameData, showGame5);
 };
 
-export default showGame2;
+export default showGame4;
