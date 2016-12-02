@@ -14,16 +14,19 @@ const showStats = () => {
         total: '900'
       },
       resultSpeed: {
+        bonus: 'Бонус за скорость:',
         sum: '1',
         points: '50',
         total: '50'
       },
       resultLives: {
+        bonus: 'Бонус за жизни:',
         sum: '2',
         points: '50',
         total: '100'
       },
       resultSlow: {
+        bonus: 'Штраф за медлительность:',
         sum: '2',
         points: '50',
         total: '-100'
@@ -41,6 +44,7 @@ const showStats = () => {
         total: '900'
       },
       resultLives: {
+        bonus: 'Бонус за жизни:',
         sum: '2',
         points: '50',
         total: '100'
@@ -49,13 +53,31 @@ const showStats = () => {
     }
   };
 
-
   const getStatsElement = (data) => {
     const header = `<header class="header">
       ${headerBack}
     </header>`;
 
     const result = `<h1>${statsData.result}</h1>`;
+
+    const getPointAndTotalTemplate = (numOfGame) => {
+      let num = `game${numOfGame}Result`;
+      return `<td class="result__points">×&nbsp;${statsData[num].resultGeneral.points}</td>
+              <td class="result__total">${statsData[num].resultGeneral.total}</td>`;
+    };
+
+    const getResultGameTemplate = (numOfGame, typeOfStats) => {
+      let num = `game${numOfGame}Result`;
+      let type = `result${typeOfStats}`;
+      let numStats = statsData[num];
+      return `<tr>
+                <td></td>
+                <td class="result__extra">${numStats[type].bonus}</td>
+                <td class="result__extra">${numStats[type].sum}&nbsp;<span class="stats__result stats__result--fast"></span></td>
+                <td class="result__points">×&nbsp;${numStats[type].points}</td>
+                <td class="result__total">${numStats[type].total}</td>
+              </tr>`;
+    };
 
     const game1Result = `<table class="result__table">
       <tr>
@@ -65,30 +87,11 @@ const showStats = () => {
             ${getResultStats(statsData.game1Result.resultGeneral.stats)}
           </ul>
         </td>
-        <td class="result__points">×&nbsp;${statsData.game1Result.resultGeneral.points}</td>
-        <td class="result__total">${statsData.game1Result.resultGeneral.total}</td>
+        ${getPointAndTotalTemplate(1)}
       </tr>
-      <tr>
-        <td></td>
-        <td class="result__extra">Бонус за скорость:</td>
-        <td class="result__extra">${statsData.game1Result.resultSpeed.sum}&nbsp;<span class="stats__result stats__result--fast"></span></td>
-        <td class="result__points">×&nbsp;${statsData.game1Result.resultSpeed.points}</td>
-        <td class="result__total">${statsData.game1Result.resultSpeed.total}</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td class="result__extra">Бонус за жизни:</td>
-        <td class="result__extra">${statsData.game1Result.resultLives.sum}&nbsp;<span class="stats__result stats__result--heart"></span></td>
-        <td class="result__points">×&nbsp;${statsData.game1Result.resultLives.points}</td>
-        <td class="result__total">${statsData.game1Result.resultLives.total}</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td class="result__extra">Штраф за медлительность:</td>
-        <td class="result__extra">${statsData.game1Result.resultSlow.sum}&nbsp;<span class="stats__result stats__result--slow"></span></td>
-        <td class="result__points">×&nbsp;${statsData.game1Result.resultSlow.points}</td>
-        <td class="result__total">${statsData.game1Result.resultSlow.total}</td>
-      </tr>
+      ${getResultGameTemplate(1, 'Speed')}
+      ${getResultGameTemplate(1, 'Lives')}
+      ${getResultGameTemplate(1, 'Slow')}
       <tr>
         <td colspan="5" class="result__total  result__total--final">${statsData.game1Result.resultTotal}</td>
       </tr>
@@ -115,16 +118,9 @@ const showStats = () => {
               ${getResultStats(statsData.game3Result.resultGeneral.stats)}
             </ul>
           </td>
-          <td class="result__points">×&nbsp;${statsData.game3Result.resultGeneral.points}</td>
-          <td class="result__total">${statsData.game3Result.resultGeneral.total}</td>
+          ${getPointAndTotalTemplate(3)}
         </tr>
-        <tr>
-          <td></td>
-          <td class="result__extra">Бонус за жизни:</td>
-          <td class="result__extra">${statsData.game3Result.resultLives.sum}&nbsp;<span class="stats__result stats__result--heart"></span></td>
-          <td class="result__points">×&nbsp;${statsData.game3Result.resultLives.points}</td>
-          <td class="result__total">${statsData.game3Result.resultLives.total}</td>
-        </tr>
+        ${getResultGameTemplate(3, 'Lives')}
         <tr>
           <td colspan="5" class="result__total  result__total--final">${statsData.game3Result.resultTotal}</td>
         </tr>

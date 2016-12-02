@@ -4,6 +4,18 @@ import headerBack from './header-back';
 import display from './display';
 import pushGameStats from './general-stats';
 
+const showModule = (gameStats, callback) => {
+  pushGameStats(gameStats);
+  callback();
+};
+
+const showGame = (mod, answers, func) => {
+  display(mod);
+  for (let i of answers) {
+    i.addEventListener('click', func);
+  }
+};
+
 const showNextGame = (data, nextGame) => {
   const header = `<header class="header">
       ${headerBack}
@@ -17,43 +29,27 @@ const showNextGame = (data, nextGame) => {
 
   const task = `<p class="game__task">${data.game.task}</p>`;
 
+  const getOptionTemplate = (img, width, height) => {
+    return `<div class="game__option">
+        <img src="${img}" alt="Option 1" width="${width}" height="${height}">
+        <label class="game__answer game__answer--photo">
+          <input name="question1" type="radio" value="photo">
+          <span>Фото</span>
+        </label>
+        <label class="game__answer game__answer--paint">
+          <input name="question1" type="radio" value="paint">
+          <span>Рисунок</span>
+        </label>
+      </div>`;
+  };
+
   const contentDouble = `<form class="game__content">
-        <div class="game__option">
-          <img src="${data.game.content.option1}" alt="Option 1" width="468" height="458">
-          <label class="game__answer game__answer--photo">
-            <input name="question1" type="radio" value="photo">
-            <span>Фото</span>
-          </label>
-          <label class="game__answer game__answer--paint">
-            <input name="question1" type="radio" value="paint">
-            <span>Рисунок</span>
-          </label>
-        </div>
-        <div class="game__option">
-          <img src="${data.game.content.option2}" alt="Option 2" width="468" height="458">
-          <label class="game__answer  game__answer--photo">
-            <input name="question2" type="radio" value="photo">
-            <span>Фото</span>
-          </label>
-          <label class="game__answer  game__answer--paint">
-            <input name="question2" type="radio" value="paint">
-            <span>Рисунок</span>
-          </label>
-        </div>
+        ${getOptionTemplate(data.game.content.option1, 468, 458)}
+        ${getOptionTemplate(data.game.content.option2, 468, 458)}
       </form>`;
 
   const contentWide = `<form class="game__content  game__content--wide">
-        <div class="game__option">
-          <img src="${data.game.content}" alt="Option 1" width="705" height="455">
-          <label class="game__answer  game__answer--photo">
-            <input name="question1" type="radio" value="photo">
-            <span>Фото</span>
-          </label>
-          <label class="game__answer  game__answer--wide  game__answer--paint">
-            <input name="question1" type="radio" value="paint">
-            <span>Рисунок</span>
-          </label>
-        </div>
+        ${getOptionTemplate(data.game.content, 705, 455)}
       </form>`;
 
 
@@ -103,21 +99,11 @@ const showNextGame = (data, nextGame) => {
   const moduleGame = getElementFromTemplate(gameElement);
   const gameAnswer = moduleGame.querySelectorAll(selector);
 
-  const showNextModule = (gameStats, callback) => {
-    pushGameStats(gameStats);
-    callback();
+  const showNextModule = () => {
+    showModule(data.game.stats, nextGame);
   };
 
-  const showGame = () => {
-    display(moduleGame);
-    for (let i of gameAnswer) {
-      i.addEventListener('click', () => {
-        showNextModule(data.game.stats, nextGame);
-      });
-    }
-  };
-
-  showGame();
+  showGame(moduleGame, gameAnswer, showNextModule);
 };
 
 export default showNextGame;
