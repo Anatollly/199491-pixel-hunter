@@ -1,7 +1,8 @@
 import getElementFromTemplate from './template';
 import display from './display';
-import showGame1 from './game-1';
+import {levelData} from './data/level-data';
 import headerBack from './header-back';
+import getNextLevel from './game';
 
 const rulesData = {
   iconPhoto: 'img/photo_icon.png',
@@ -45,7 +46,7 @@ const showRules = () => {
   display(moduleRules);
   rulesSubmit.addEventListener('click', (e) => {
     e.preventDefault();
-    showGame1();
+    getNextLevel(levelData);
   });
   rulesInput.oninput = () => {
     if (rulesInput.value) {

@@ -1,10 +1,8 @@
-const getResultStats = (obj) => {
+const getResultStats = (arr) => {
   let a = '';
-  for (let i in obj) {
-    if (obj.hasOwnProperty(i)) {
-      a += `<li class="stats__result ${obj[i]}"></li>
-        `;
-    }
+  for (let i of arr) {
+    a += `<li class="stats__result stats__result--${i}"></li>
+      `;
   }
   return a.trim();
 };
