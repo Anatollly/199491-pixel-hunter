@@ -6,29 +6,47 @@ export const initialData = {
 
 
 export const setLives = (data, lives) => {
-  if (lives > 3) {
-    throw new RangeError('lives > 3');
+  if (lives > initialData.lives) {
+    throw new RangeError(`lives > ${initialData.lives}`);
   }
   if (lives < 0) {
     throw new RangeError('lives < 0');
   }
-  return Object.assign({}, data, {lives: lives});
+  const copiedObject = Object.assign({}, data, {lives: lives});
+  if (data === copiedObject) {
+    throw new Error('Returned object should not be equal to object in the parametrs of the function');
+  }
+  return copiedObject;
 };
 
 export const setTimer = (data, timer) => {
-  if (timer > 30) {
-    throw new RangeError('timer > 30');
+  if (timer > initialData.timer) {
+    throw new RangeError(`timer > ${initialData.timer}`);
   }
   if (timer < 0) {
     throw new RangeError('timer < 0');
   }
-  return Object.assign({}, data, {timer: timer});
+  const copiedObject = Object.assign({}, data, {timer: timer});
+  if (data === copiedObject) {
+    throw new Error('Returned object should not be equal to object in the parametrs of the function');
+  }
+  return copiedObject;
 };
 
 export const setStats = (data, stats, num) => {
-  if (['slow', 'fast', 'correct', 'wrong', 'unknown'].indexOf(stats) === -1) {
-    throw new Error('Value shoud be: slow, fast, correct, wrong, unknown');
+  const arrStats = ['slow', 'fast', 'correct', 'wrong', 'unknown'];
+  if (arrStats.includes(stats) === false) {
+    throw new Error(`Value should be: ${arrStats}`);
   }
-  data.stats[num] = stats;
-  return Object.assign({}, data);
+  const copiedArr = data.stats.slice();
+  copiedArr[num] = stats;
+  const copiedObject = Object.assign({}, data);
+  copiedObject.stats = copiedArr;
+  if (data.stats === copiedObject.stats) {
+    throw new Error('Array of the object should be a copied');
+  }
+  if (data === copiedObject) {
+    throw new Error('Returned object should not be equal to object in the parametrs of the function');
+  }
+  return copiedObject;
 };

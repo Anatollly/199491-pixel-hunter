@@ -24,16 +24,16 @@ const goTimer = (element, callback) => {
 
 const changeLive = () => {
   userData = setLives(userData, userData.lives - 1);
-  setStats(userData, 'wrong', next - 1);
+  userData = setStats(userData, 'wrong', next - 1);
 };
 
 const getStats = () => {
   if (userData.timer > 20) {
-    setStats(userData, 'fast', next - 1);
+    userData = setStats(userData, 'fast', next - 1);
   } else if (userData.timer < 10) {
-    setStats(userData, 'slow', next - 1);
+    userData = setStats(userData, 'slow', next - 1);
   } else {
-    setStats(userData, 'correct', next - 1);
+    userData = setStats(userData, 'correct', next - 1);
   }
 };
 
