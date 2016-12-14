@@ -1,5 +1,5 @@
 import headerBack from './header-back';
-import getResultStats from './result-stats';
+import {getResultStats} from './util';
 import {initialData} from './data/game-data';
 
 export const levelElement = (data, info) => {

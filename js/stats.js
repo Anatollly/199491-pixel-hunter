@@ -1,6 +1,4 @@
-import getElementFromTemplate from './template';
-import display from './display';
-import getResultStats from './result-stats';
+import {getElementFromTemplate, displayElement, getResultStats} from './util';
 import headerBack from './header-back';
 
 let objectStats = {
@@ -131,7 +129,7 @@ const showStats = (data) => {
 
   const moduleStats = getStatsElement();
 
-  display(moduleStats);
+  displayElement(moduleStats);
 };
 
 export default showStats;

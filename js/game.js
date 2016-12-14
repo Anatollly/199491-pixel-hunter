@@ -1,5 +1,4 @@
-import getElementFromTemplate from './template';
-import display from './display';
+import {getElementFromTemplate, displayElement} from './util';
 import {levelData} from './data/level-data';
 import {initialData, setLives, setTimer, setStats} from './data/game-data';
 import {levelElement} from './level-element';
@@ -39,7 +38,7 @@ const getStats = () => {
 
 
 const showGame = (mod, answers, func) => {
-  display(mod);
+  displayElement(mod);
   for (let i of answers) {
     i.onclick = func;
   }
