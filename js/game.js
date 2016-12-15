@@ -1,61 +1,59 @@
 import {displayElement} from './util';
 import {levelData} from './data/level-data';
-import {initialData, setLives, setTimer, setStats, setLevel} from './data/game-data';
 import {levelElement} from './templates/level-element';
 import showStats from './stats';
 import AbstractView from './abstract-view';
+import GameModel from './model';
 
-
-export let userData = Object.assign({}, initialData);
+const Model = new GameModel();
 
 let timerId;
 
-const goTimer = (element, callback) => {
-  element.innerHTML = initialData.timer;
-  userData.timer = initialData.timer;
+// запуск таймера
+const goTimer = (element) => {
+  element.innerHTML = Model.inititalState.timer;
+  Model.resetTimer();
   timerId = setInterval(() => {
-    userData = setTimer(userData, userData.timer - 1);
-    element.innerHTML = userData.timer;
-    if (userData.timer <= 0) {
-      changeLive();
-      callback();
+    Model.tick();
+    element.innerHTML = Model.state.timer;
+    if (Model.state.timer <= 0) {
+      goToNextLevelFalse();
     }
   }, 1000);
 };
 
-const changeLive = () => {
-  userData = setLives(userData, userData.lives - 1);
-  userData = setStats(userData, 'wrong', userData.currentLevel);
-};
-
-const getStats = () => {
-  if (userData.timer > 20) {
-    userData = setStats(userData, 'fast', userData.currentLevel);
-  } else if (userData.timer < 10) {
-    userData = setStats(userData, 'slow', userData.currentLevel);
-  } else {
-    userData = setStats(userData, 'correct', userData.currentLevel);
-  }
-};
-
+// переход на следующий уровень или, при окончании жизней или завершении уровней, на экран статистики
 const goToNextLevel = () => {
   clearInterval(timerId);
-  if (userData.currentLevel + 1 === Object.keys(levelData).length || userData.lives === 0) {
-    showStats(userData);
+  if (Model.gameOver() || Model.finish()) {
+    showStats(Model.state);
   } else {
-    userData = setLevel(userData, userData.currentLevel + 1);
-    displayElement(new GameView(userData).element);
+    Model.nextLevel();
+    displayElement(new GameView(Model.state).element);
   }
+};
+
+// переход на следующий уровень при неверном ответе
+const goToNextLevelFalse = () => {
+  Model.changeLives();
+  goToNextLevel();
+};
+
+// переход на следующий уровень при верном ответе
+const goToNextLevelTrue = () => {
+  Model.getStats();
+  goToNextLevel();
 };
 
 class GameView extends AbstractView {
   constructor(data) {
     super();
-    this.dataOfLevel = levelData[`level-${data.currentLevel}`];
+    this.data = data;
+    this.dataOfLevel = levelData[`level-${this.data.currentLevel}`];
   }
 
-  getMarkup() {
-    return levelElement(this.dataOfLevel, userData);
+  getMarkup(data) {
+    return levelElement(this.dataOfLevel, this.data);
   }
 
   bindHandlers() {
@@ -81,11 +79,9 @@ class GameView extends AbstractView {
               }
             }
             if (a.has(false)) {
-              changeLive();
-              goToNextLevel();
+              goToNextLevelFalse();
             } else {
-              getStats();
-              goToNextLevel();
+              goToNextLevelTrue();
             }
           }
         };
@@ -94,11 +90,9 @@ class GameView extends AbstractView {
         selector = '.game__answer input';
         clickAnswer = (evt) => {
           if (evt.target.value === this.dataOfLevel.correctAnswer.question1) {
-            getStats();
-            goToNextLevel();
+            goToNextLevelTrue();
           } else {
-            changeLive();
-            goToNextLevel();
+            goToNextLevelFalse();
           }
         };
         break;
@@ -107,11 +101,9 @@ class GameView extends AbstractView {
         clickAnswer = (evt) => {
           let gameOption = this._element.querySelectorAll(selector);
           if (evt.target === gameOption[this.dataOfLevel.correctAnswer - 1]) {
-            getStats();
-            goToNextLevel();
+            goToNextLevelTrue();
           } else {
-            changeLive();
-            goToNextLevel();
+            goToNextLevelFalse();
           }
         };
     }
@@ -119,7 +111,7 @@ class GameView extends AbstractView {
     const gameAnswer = this._element.querySelectorAll(selector);
     const gameTimer = this._element.querySelector('.game__timer');
 
-    goTimer(gameTimer, goToNextLevel);
+    goTimer(gameTimer);
 
     for (let i of gameAnswer) {
       i.onclick = clickAnswer;
@@ -128,5 +120,5 @@ class GameView extends AbstractView {
 }
 
 export default () => {
-  displayElement(new GameView(userData).element);
+  displayElement(new GameView(Model.state).element);
 };

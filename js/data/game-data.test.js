@@ -58,9 +58,6 @@ describe('Game parametrs', () => {
     it('changes number of level', () => {
       assert.equal(setLevel({}, 3).currentLevel, 3);
     });
-    it('if level > 10', () => {
-      assert.throws(() => setLevel({}, 11));
-    });
     it('if level < 0', () => {
       assert.throws(() => setLevel({}, -1));
     });
