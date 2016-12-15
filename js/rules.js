@@ -1,7 +1,6 @@
 import {displayElement} from './util';
 import AbstractView from './abstract-view';
-import {levelData} from './data/level-data';
-import headerBack from './header-back';
+import headerBack from './templates/header-back';
 import getNextLevel from './game';
 import {initialData} from './data/game-data';
 
@@ -34,7 +33,7 @@ class RulesView extends AbstractView {
     const rulesInput = this._element.querySelector('.rules__input');
     rulesSubmit.addEventListener('click', (e) => {
       e.preventDefault();
-      getNextLevel(levelData);
+      getNextLevel();
     });
     rulesInput.oninput = () => {
       if (rulesInput.value) {

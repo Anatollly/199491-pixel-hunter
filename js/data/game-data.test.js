@@ -1,5 +1,5 @@
 import assert from 'assert';
-import {initialData, setLives, setTimer, setStats} from './game-data.js';
+import {initialData, setLives, setTimer, setStats, setLevel} from './game-data.js';
 
 describe('Array', function () {
   describe('#indexOf()', function () {
@@ -52,6 +52,17 @@ describe('Game parametrs', () => {
     });
     it('if stats has another values', () => {
       assert.throws(() => setStats(initialData, 'super', 7));
+    });
+  });
+  describe('Changes level', () => {
+    it('changes number of level', () => {
+      assert.equal(setLevel({}, 3).currentLevel, 3);
+    });
+    it('if level > 10', () => {
+      assert.throws(() => setLevel({}, 11));
+    });
+    it('if level < 0', () => {
+      assert.throws(() => setLevel({}, -1));
     });
   });
 });

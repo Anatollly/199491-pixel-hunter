@@ -2,6 +2,7 @@ export const initialData = {
   timer: 30,
   lives: 3,
   stats: ['unknown', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown'],
+  currentLevel: 0,
 };
 
 
@@ -45,6 +46,17 @@ export const setStats = (data, stats, num) => {
   if (data.stats === copiedObject.stats) {
     throw new Error('Array of the object should be a copied');
   }
+  if (data === copiedObject) {
+    throw new Error('Returned object should not be equal to object in the parametrs of the function');
+  }
+  return copiedObject;
+};
+
+export const setLevel = (data, level) => {
+  if (level < 0) {
+    throw new RangeError('level < 0');
+  }
+  const copiedObject = Object.assign({}, data, {currentLevel: level});
   if (data === copiedObject) {
     throw new Error('Returned object should not be equal to object in the parametrs of the function');
   }

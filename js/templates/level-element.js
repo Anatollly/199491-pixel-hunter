@@ -1,6 +1,6 @@
 import headerBack from './header-back';
-import {getResultStats} from './util';
-import {initialData} from './data/game-data';
+import {getResultStats} from '../util';
+import {initialData} from '../data/game-data';
 
 export const levelElement = (data, info) => {
   const imgHeartFull = '<img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">';
