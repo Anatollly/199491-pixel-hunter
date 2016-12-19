@@ -1,5 +1,5 @@
 import assert from 'assert';
-import {initialData, setLives, setTimer, setStats, setLevel} from './game-data.js';
+import {initialState, setLives, setTimer, setStats, setLevel} from './game-data.js';
 
 describe('Array', function () {
   describe('#indexOf()', function () {
@@ -36,22 +36,22 @@ describe('Game parametrs', () => {
 
   describe('stats', () => {
     it('changes stats', () => {
-      assert.equal(setStats(initialData, 'slow', 3).stats[3], 'slow');
+      assert.equal(setStats(initialState, 'slow', 3).stats[3], 'slow');
     });
     it('changes stats', () => {
-      assert.equal(setStats(initialData, 'fast', 4).stats[4], 'fast');
+      assert.equal(setStats(initialState, 'fast', 4).stats[4], 'fast');
     });
     it('changes stats', () => {
-      assert.equal(setStats(initialData, 'correct', 5).stats[5], 'correct');
+      assert.equal(setStats(initialState, 'correct', 5).stats[5], 'correct');
     });
     it('changes stats', () => {
-      assert.equal(setStats(initialData, 'wrong', 6).stats[6], 'wrong');
+      assert.equal(setStats(initialState, 'wrong', 6).stats[6], 'wrong');
     });
     it('changes stats', () => {
-      assert.equal(setStats(initialData, 'unknown', 6).stats[6], 'unknown');
+      assert.equal(setStats(initialState, 'unknown', 6).stats[6], 'unknown');
     });
     it('if stats has another values', () => {
-      assert.throws(() => setStats(initialData, 'super', 7));
+      assert.throws(() => setStats(initialState, 'super', 7));
     });
   });
   describe('Changes level', () => {

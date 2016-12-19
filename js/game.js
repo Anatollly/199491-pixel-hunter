@@ -11,7 +11,7 @@ let timerId;
 
 // запуск таймера
 const goTimer = (element) => {
-  element.innerHTML = Model.inititalState.timer;
+  element.innerHTML = Model.initialState.timer;
   Model.resetTimer();
   timerId = setInterval(() => {
     Model.tick();
@@ -22,8 +22,8 @@ const goTimer = (element) => {
   }, 1000);
 };
 
-// переход на следующий уровень или, при окончании жизней или завершении уровней, на экран статистики
-const goToNextLevel = () => {
+// функция показывает следующий уровень или, при окончании жизней или завершении уровней, экран статистики
+const showNextLevel = () => {
   clearInterval(timerId);
   if (Model.gameOver() || Model.finish()) {
     showStats(Model.state);
@@ -36,13 +36,22 @@ const goToNextLevel = () => {
 // переход на следующий уровень при неверном ответе
 const goToNextLevelFalse = () => {
   Model.changeLives();
-  goToNextLevel();
+  showNextLevel();
 };
 
 // переход на следующий уровень при верном ответе
 const goToNextLevelTrue = () => {
   Model.getStats();
-  goToNextLevel();
+  showNextLevel();
+};
+
+// переход на следующий уровень в зависимости от верности ответа
+const goToNextLevel = (boolean) => {
+  if (boolean) {
+    goToNextLevelTrue();
+  } else {
+    goToNextLevelFalse();
+  }
 };
 
 class GameView extends AbstractView {
@@ -78,33 +87,21 @@ class GameView extends AbstractView {
                 }
               }
             }
-            if (a.has(false)) {
-              goToNextLevelFalse();
-            } else {
-              goToNextLevelTrue();
-            }
+            goToNextLevel(!a.has(false));
           }
         };
         break;
       case 'wide':
         selector = '.game__answer input';
         clickAnswer = (evt) => {
-          if (evt.target.value === this.dataOfLevel.correctAnswer.question1) {
-            goToNextLevelTrue();
-          } else {
-            goToNextLevelFalse();
-          }
+          goToNextLevel(evt.target.value === this.dataOfLevel.correctAnswer.question1);
         };
         break;
       case 'triple':
         selector = '.game__option';
         clickAnswer = (evt) => {
           let gameOption = this._element.querySelectorAll(selector);
-          if (evt.target === gameOption[this.dataOfLevel.correctAnswer - 1]) {
-            goToNextLevelTrue();
-          } else {
-            goToNextLevelFalse();
-          }
+          goToNextLevel(evt.target === gameOption[this.dataOfLevel.correctAnswer - 1]);
         };
     }
 

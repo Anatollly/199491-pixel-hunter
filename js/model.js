@@ -1,8 +1,11 @@
 import {levelData} from './data/level-data';
-import {initialData, setLives, setTimer, setStats, setLevel} from './data/game-data';
+import {initialState, setLives, setTimer, setStats, setLevel} from './data/game-data';
+
+const FAST_TIME = 20;
+const SLOW_TIME = 10;
 
 export default class Model {
-  constructor(state = initialData) {
+  constructor(state = initialState) {
     this._state = state;
   }
 
@@ -12,8 +15,8 @@ export default class Model {
   }
 
   // получение начальных данных
-  get inititalState() {
-    return initialData;
+  get initialState() {
+    return initialState;
   }
 
   // уменьшение таймера на 1 сек
@@ -23,7 +26,7 @@ export default class Model {
 
   // сброс таймера
   resetTimer() {
-    this._state = setTimer(this._state, initialData.timer);
+    this._state = setTimer(this._state, initialState.timer);
   }
 
   // увелечение уровня игра на 1
@@ -49,9 +52,9 @@ export default class Model {
 
   // запись положительной статистики
   getStats() {
-    if (this._state.timer > 20) {
+    if (this._state.timer > FAST_TIME) {
       this._state = setStats(this._state, 'fast', this._state.currentLevel);
-    } else if (this._state.timer < 10) {
+    } else if (this._state.timer < SLOW_TIME) {
       this._state = setStats(this._state, 'slow', this._state.currentLevel);
     } else {
       this._state = setStats(this._state, 'correct', this._state.currentLevel);

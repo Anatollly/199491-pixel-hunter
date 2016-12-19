@@ -2,7 +2,7 @@ import {displayElement} from './util';
 import AbstractView from './abstract-view';
 import headerBack from './templates/header-back';
 import getNextLevel from './game';
-import {initialData} from './data/game-data';
+import {initialState} from './data/game-data';
 
 class RulesView extends AbstractView {
 
@@ -16,8 +16,8 @@ class RulesView extends AbstractView {
         src="img/photo_icon.png" width="16" height="16"> или рисунок <img
         src="img/paint_icon.png" width="16" height="16" alt="">.<br>
         Фотографиями или рисунками могут быть оба изображения.<br>
-        На каждую попытку отводится ${initialData.timer} секунд.<br>
-        Ошибиться можно не более ${initialData.lives} раз.<br>
+        На каждую попытку отводится ${initialState.timer} секунд.<br>
+        Ошибиться можно не более ${initialState.lives} раз.<br>
         <br>
         Готовы?
       </p>
