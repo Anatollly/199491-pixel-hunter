@@ -1,133 +1,121 @@
-import getElementFromTemplate from './template';
-import display from './display';
+import {displayElement} from './util';
 import {levelData} from './data/level-data';
-import {initialData, setLives, setTimer, setStats} from './data/game-data';
-import {levelElement} from './level-element';
+import {levelElement} from './templates/level-element';
 import showStats from './stats';
+import AbstractView from './abstract-view';
+import GameModel from './model';
 
-
-export let userData = Object.assign({}, initialData);
+const Model = new GameModel();
 
 let timerId;
 
-const goTimer = (element, callback) => {
-  element.innerHTML = initialData.timer;
-  userData.timer = initialData.timer;
+// запуск таймера
+const goTimer = (element) => {
+  element.innerHTML = Model.initialState.timer;
+  Model.resetTimer();
   timerId = setInterval(() => {
-    userData = setTimer(userData, userData.timer - 1);
-    element.innerHTML = userData.timer;
-    if (userData.timer <= 0) {
-      callback();
+    Model.tick();
+    element.innerHTML = Model.state.timer;
+    if (Model.state.timer <= 0) {
+      goToNextLevelFalse();
     }
   }, 1000);
 };
 
-const changeLive = () => {
-  userData = setLives(userData, userData.lives - 1);
-  userData = setStats(userData, 'wrong', next - 1);
-};
-
-const getStats = () => {
-  if (userData.timer > 20) {
-    userData = setStats(userData, 'fast', next - 1);
-  } else if (userData.timer < 10) {
-    userData = setStats(userData, 'slow', next - 1);
-  } else {
-    userData = setStats(userData, 'correct', next - 1);
-  }
-};
-
-
-const showGame = (mod, answers, func) => {
-  display(mod);
-  for (let i of answers) {
-    i.onclick = func;
-  }
-};
-
-let next = 0;
-
-const getNextLevel = (data) => {
+// функция показывает следующий уровень или, при окончании жизней или завершении уровней, экран статистики
+const showNextLevel = () => {
   clearInterval(timerId);
-  let currentData = data['level-' + next];
+  if (Model.gameOver() || Model.finish()) {
+    showStats(Model.state);
+  } else {
+    Model.nextLevel();
+    displayElement(new GameView(Model.state).element);
+  }
+};
 
-  const gameElement = levelElement(currentData, userData);
-  const moduleGame = getElementFromTemplate(gameElement);
+// переход на следующий уровень при неверном ответе
+const goToNextLevelFalse = () => {
+  Model.changeLives();
+  showNextLevel();
+};
 
-  let selector = '';
-  let clickAnswer;
-  let q = {};
+// переход на следующий уровень при верном ответе
+const goToNextLevelTrue = () => {
+  Model.getStats();
+  showNextLevel();
+};
 
-  switch (currentData.typeOfGame) {
-    case 'double':
-      selector = '.game__answer input';
-      clickAnswer = (evt) => {
-        let a = new Set();
-        let gameOption = moduleGame.querySelectorAll('.game__content .game__option');
-        q[evt.target.name] = evt.target.value;
-        if (Object.keys(q).length === gameOption.length) {
-          for (let i in q) {
-            if (q.hasOwnProperty(i)) {
-              if (currentData.correctAnswer[i] === q[i]) {
-                a.add(true);
-              } else {
-                a.add(false);
+// переход на следующий уровень в зависимости от верности ответа
+const goToNextLevel = (boolean) => {
+  if (boolean) {
+    goToNextLevelTrue();
+  } else {
+    goToNextLevelFalse();
+  }
+};
+
+class GameView extends AbstractView {
+  constructor(data) {
+    super();
+    this.data = data;
+    this.dataOfLevel = levelData[`level-${this.data.currentLevel}`];
+  }
+
+  getMarkup(data) {
+    return levelElement(this.dataOfLevel, this.data);
+  }
+
+  bindHandlers() {
+    let selector = '';
+    let clickAnswer;
+    let q = {};
+
+    switch (this.dataOfLevel.typeOfGame) {
+      case 'double':
+        selector = '.game__answer input';
+        clickAnswer = (evt) => {
+          let a = new Set();
+          let gameOption = this._element.querySelectorAll('.game__content .game__option');
+          q[evt.target.name] = evt.target.value;
+          if (Object.keys(q).length === gameOption.length) {
+            for (let i in q) {
+              if (q.hasOwnProperty(i)) {
+                if (this.dataOfLevel.correctAnswer[i] === q[i]) {
+                  a.add(true);
+                } else {
+                  a.add(false);
+                }
               }
             }
+            goToNextLevel(!a.has(false));
           }
-          if (a.has(false)) {
-            changeLive();
-            goToNextLevel();
-          } else {
-            getStats();
-            goToNextLevel();
-          }
-        }
-      };
-      break;
-    case 'wide':
-      selector = '.game__answer input';
-      clickAnswer = (evt) => {
-        if (evt.target.value === currentData.correctAnswer.question1) {
-          getStats();
-          goToNextLevel();
-        } else {
-          changeLive();
-          goToNextLevel();
-        }
-      };
-      break;
-    case 'triple':
-      selector = '.game__option';
-      clickAnswer = (evt) => {
-        let gameOption = moduleGame.querySelectorAll(selector);
-        if (evt.target === gameOption[currentData.correctAnswer - 1]) {
-          getStats();
-          goToNextLevel();
-        } else {
-          changeLive();
-          goToNextLevel();
-        }
-      };
-  }
-  const gameAnswer = moduleGame.querySelectorAll(selector);
-  const gameTimer = moduleGame.querySelector('.game__timer');
-
-  next++;
-
-  const goToNextLevel = () => {
-    clearInterval(timerId);
-    if (next + 1 > Object.keys(levelData).length || userData.lives === 0) {
-      showStats(userData);
-    } else {
-      getNextLevel(data);
+        };
+        break;
+      case 'wide':
+        selector = '.game__answer input';
+        clickAnswer = (evt) => {
+          goToNextLevel(evt.target.value === this.dataOfLevel.correctAnswer.question1);
+        };
+        break;
+      case 'triple':
+        selector = '.game__option';
+        clickAnswer = (evt) => {
+          let gameOption = this._element.querySelectorAll(selector);
+          goToNextLevel(evt.target === gameOption[this.dataOfLevel.correctAnswer - 1]);
+        };
     }
-  };
 
-  goTimer(gameTimer, goToNextLevel);
+    const gameAnswer = this._element.querySelectorAll(selector);
+    const gameTimer = this._element.querySelector('.game__timer');
 
-  showGame(moduleGame, gameAnswer, clickAnswer);
+    goTimer(gameTimer);
 
+    for (let i of gameAnswer) {
+      i.onclick = clickAnswer;
+    }
+  }
+}
+
+export default () => {
+  displayElement(new GameView(Model.state).element);
 };
-
-export default getNextLevel;

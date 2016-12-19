@@ -1,21 +1,24 @@
-import getElementFromTemplate from './template';
-import display from './display';
+import {displayElement} from './util';
+import AbstractView from './abstract-view';
 import showGreeting from './greeting';
 
-const introElement = `<div id="intro" class="intro">
-  <h1 class="intro__asterisk">*</h1>
-  <p class="intro__motto"><sup>*</sup> Это не фото. Это рисунок маслом нидерландского художника-фотореалиста Tjalf
-    Sparnaay.</p>
-</div>`;
+class IntroView extends AbstractView {
 
-const moduleIntro = getElementFromTemplate(introElement);
-const asterisk = moduleIntro.querySelector('.intro__asterisk');
+  getMarkup() {
+    return `<div id="intro" class="intro">
+      <h1 class="intro__asterisk">*</h1>
+      <p class="intro__motto"><sup>*</sup> Это не фото. Это рисунок маслом нидерландского художника-фотореалиста Tjalf
+        Sparnaay.</p>
+    </div>`;
+  }
 
-const showIntro = () => {
-  display(moduleIntro);
-  asterisk.addEventListener('click', () => {
-    showGreeting();
-  });
+  bindHandlers() {
+    this.element.querySelector('.intro__asterisk').addEventListener('click', () => {
+      showGreeting();
+    });
+  }
+}
+
+export default () => {
+  displayElement(new IntroView().element);
 };
-
-export default showIntro;
