@@ -1,6 +1,5 @@
-import {displayElement} from './util';
-import AbstractView from './abstract-view';
-import showGreeting from './greeting';
+import AbstractView from '../abstract-view';
+import Application from '../application';
 
 class IntroView extends AbstractView {
 
@@ -14,11 +13,9 @@ class IntroView extends AbstractView {
 
   bindHandlers() {
     this.element.querySelector('.intro__asterisk').addEventListener('click', () => {
-      showGreeting();
+      Application.showGreeting();
     });
   }
 }
 
-export default () => {
-  displayElement(new IntroView().element);
-};
+export default () => new IntroView().element;

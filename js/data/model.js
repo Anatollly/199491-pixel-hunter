@@ -1,10 +1,10 @@
-import {levelData} from './data/level-data';
-import {initialState, setLives, setTimer, setStats, setLevel} from './data/game-data';
+import {levelData} from './level-data';
+import {initialState, setLives, setTimer, setStats, setLevel} from './game-data';
 
 const FAST_TIME = 20;
 const SLOW_TIME = 10;
 
-export default class Model {
+class Model {
   constructor(state = initialState) {
     this._state = state;
   }
@@ -17,6 +17,16 @@ export default class Model {
   // получение начальных данных
   get initialState() {
     return initialState;
+  }
+
+  // текущий уровень
+
+  get currentLevel() {
+    return levelData[`level-${this._state.currentLevel}`];
+  }
+
+  resetGame() {
+    this._state = initialState;
   }
 
   // уменьшение таймера на 1 сек
@@ -62,3 +72,5 @@ export default class Model {
   }
 
 }
+
+export default new Model();
