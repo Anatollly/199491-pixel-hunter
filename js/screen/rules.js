@@ -1,8 +1,7 @@
-import {displayElement} from './util';
-import AbstractView from './abstract-view';
-import headerBack from './templates/header-back';
-import getNextLevel from './game';
-import {initialState} from './data/game-data';
+import Application from '../application';
+import AbstractView from '../abstract-view';
+import headerBack from '../templates/header-back';
+import {initialState} from '../data/game-data';
 
 class RulesView extends AbstractView {
 
@@ -29,11 +28,11 @@ class RulesView extends AbstractView {
   }
 
   bindHandlers() {
-    const rulesSubmit = this._element.querySelector('.rules__button');
-    const rulesInput = this._element.querySelector('.rules__input');
+    const rulesSubmit = this.element.querySelector('.rules__button');
+    const rulesInput = this.element.querySelector('.rules__input');
     rulesSubmit.addEventListener('click', (e) => {
       e.preventDefault();
-      getNextLevel();
+      Application.showGame();
     });
     rulesInput.oninput = () => {
       if (rulesInput.value) {
@@ -46,6 +45,4 @@ class RulesView extends AbstractView {
 
 }
 
-export default () => {
-  displayElement(new RulesView().element);
-};
+export default () => new RulesView().element;

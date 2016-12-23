@@ -1,6 +1,5 @@
-import {displayElement} from './util';
-import AbstractView from './abstract-view';
-import showRules from './rules';
+import AbstractView from '../abstract-view';
+import Application from '../application';
 
 class GreetingView extends AbstractView {
 
@@ -21,12 +20,10 @@ class GreetingView extends AbstractView {
   }
 
   bindHandlers() {
-    this._element.querySelector('.greeting__continue').addEventListener('click', () => {
-      showRules();
+    this.element.querySelector('.greeting__continue').addEventListener('click', () => {
+      Application.showRules();
     });
   }
 }
 
-export default () => {
-  displayElement(new GreetingView().element);
-};
+export default () => new GreetingView().element;

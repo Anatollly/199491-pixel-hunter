@@ -1,3 +1,3 @@
-import showIntro from './intro';
+import Application from './application';
 
-showIntro();
+Application.showIntro();
