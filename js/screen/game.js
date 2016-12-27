@@ -1,10 +1,12 @@
 import LevelView from '../templates/level-view';
 import Application from '../application';
-import gameModel from '../data/model';
+import GameModel from '../data/model';
 
 class GamePresenter {
-  constructor() {
-    this.content = new LevelView(gameModel);
+  constructor(model) {
+    this.model = model;
+
+    this.content = new LevelView(this.model);
 
     this.root = document.createElement('div');
     this.root.appendChild(this.content.element);
@@ -14,12 +16,12 @@ class GamePresenter {
 
   // запуск таймера
   goTimer(timerElement) {
-    timerElement.innerHTML = gameModel.initialState.timer;
-    gameModel.resetTimer();
+    timerElement.innerHTML = this.model.initialState.timer;
+    this.model.resetTimer();
     this._timerID = setInterval(() => {
-      gameModel.tick();
-      timerElement.innerHTML = gameModel.state.timer;
-      if (gameModel.state.timer <= 0) {
+      this.model.tick();
+      timerElement.innerHTML = this.model.state.timer;
+      if (this.model.state.timer <= 0) {
         this.goToNextLevelFalse();
       }
     }, 1000);
@@ -32,23 +34,23 @@ class GamePresenter {
   // функция показывает следующий уровень или, при окончании жизней или завершении уровней, экран статистики
   showNextLevel() {
     clearInterval(this._timerID);
-    if (gameModel.gameOver() || gameModel.finish()) {
-      Application.showStats(gameModel.state);
+    if (this.model.gameOver() || this.model.finish()) {
+      Application.showStats(this.model.state);
     } else {
-      gameModel.nextLevel();
+      this.model.nextLevel();
       this.startGame();
     }
   }
 
   // переход на следующий уровень при неверном ответе
   goToNextLevelFalse() {
-    gameModel.changeLives();
+    this.model.changeLives();
     this.showNextLevel();
   }
 
   // переход на следующий уровень при верном ответе
   goToNextLevelTrue() {
-    gameModel.getStats();
+    this.model.getStats();
     this.showNextLevel();
   }
 
@@ -62,7 +64,7 @@ class GamePresenter {
   }
 
   changeLevel() {
-    const level = new LevelView(gameModel);
+    const level = new LevelView(this.model);
     level.onAnswer = this.goToNextLevel.bind(this);
     this.changeContentView(level);
   }
@@ -76,9 +78,9 @@ class GamePresenter {
 
 }
 
-const game = new GamePresenter();
-
-export default () => {
+export default (questData) => {
+  const gameModel = new GameModel(questData);
+  const game = new GamePresenter(gameModel);
   gameModel.resetGame();
   game.startGame();
   return game.root;

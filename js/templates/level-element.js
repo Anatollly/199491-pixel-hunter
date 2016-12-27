@@ -1,7 +1,6 @@
 import {getResultStats} from '../util';
 import headerBack from './header-back';
 
-
 export const levelElement = (data) => {
 
   const headerElement = () => {
@@ -34,56 +33,62 @@ export const levelElement = (data) => {
     return header;
   };
 
+  const levelData = data.currentLevel;
 
-  const task = `<p class="game__task">${data.currentLevel.task}</p>`;
+  const task = `<p class="game__task">${levelData.question}</p>`;
 
-  const getOptionTemplate = (img, width, height, num) => {
+  const getOptionTemplate = (num) => {
     return `<div class="game__option">
-        <img src="${img}" alt="Option 1" width="${width}" height="${height}">
+        <img src="" alt="Option 1" width="" height="">
         <label class="game__answer game__answer--photo">
-          <input name="question${num}" type="radio" value="photo">
+          <input name="question${num + 1}" type="radio" value="photo">
           <span>Фото</span>
         </label>
         <label class="game__answer game__answer--paint">
-          <input name="question${num}" type="radio" value="paint">
+          <input name="question${num + 1}" type="radio" value="painting">
           <span>Рисунок</span>
         </label>
       </div>`;
   };
 
-  const contentDouble = `<form class="game__content">
-        ${getOptionTemplate(data.currentLevel.content.option1, 468, 458, 1)}
-        ${getOptionTemplate(data.currentLevel.content.option2, 468, 458, 2)}
+  const contentDouble = () => {
+    return `<form class="game__content">
+        ${getOptionTemplate(0)}
+        ${getOptionTemplate(1)}
       </form>`;
+  };
 
-  const contentWide = `<form class="game__content  game__content--wide">
-  ${getOptionTemplate(data.currentLevel.content, 705, 455, 1)}
+  const contentWide = () => {
+    return `<form class="game__content  game__content--wide">
+        ${getOptionTemplate(0)}
       </form>`;
+  };
 
-
-  const contentTriple = `<form class="game__content  game__content--triple">
+  const contentTriple = () => {
+    return `<form class="game__content  game__content--triple">
         <div class="game__option">
-        <img src="${data.currentLevel.content.option1}" alt="Option 1" width="304" height="455">
+        <img src="" alt="Option 1" width="" height="">
         </div>
         <div class="game__option  game__option--selected">
-        <img src="${data.currentLevel.content.option2}" alt="Option 1" width="304" height="455">
+        <img src="" alt="Option 1" width="" height="">
         </div>
         <div class="game__option">
-        <img src="${data.currentLevel.content.option3}" alt="Option 1" width="304" height="455">
+        <img src="" alt="Option 1" width="" height="">
         </div>
       </form>`;
+  };
 
   let content = '';
 
-  switch (data.currentLevel.typeOfGame) {
-    case 'double':
-      content = contentDouble;
+  switch (levelData.type) {
+    case 'two-of-two':
+      content = contentDouble();
       break;
-    case 'wide':
-      content = contentWide;
+    case 'tinder-like':
+      content = contentWide();
       break;
-    case 'triple':
-      content = contentTriple;
+    case 'one-of-three':
+      content = contentTriple();
   }
 
   const stats = `<div class="stats">
