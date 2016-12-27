@@ -1,11 +1,11 @@
-import {levelData} from './level-data';
 import {initialState, setLives, setTimer, setStats, setLevel} from './game-data';
 
 const FAST_TIME = 20;
 const SLOW_TIME = 10;
 
-class Model {
-  constructor(state = initialState) {
+export default class Model {
+  constructor(data, state = initialState) {
+    this.data = data;
     this._state = state;
   }
 
@@ -22,7 +22,7 @@ class Model {
   // текущий уровень
 
   get currentLevel() {
-    return levelData[`level-${this._state.currentLevel}`];
+    return this.data[this._state.currentLevel];
   }
 
   resetGame() {
@@ -51,7 +51,7 @@ class Model {
 
   // завершение уровней
   finish() {
-    return this._state.currentLevel + 1 === Object.keys(levelData).length;
+    return this._state.currentLevel + 1 === this.data.length;
   }
 
   // уменьшение жизней на одну и запись отрицательной статистики
@@ -72,5 +72,3 @@ class Model {
   }
 
 }
-
-export default new Model();
