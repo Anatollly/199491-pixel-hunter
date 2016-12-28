@@ -42,7 +42,7 @@ class GamePresenter {
       }
     };
 
-    window.fetch(`https://intensive-ecmascript-server-dxttmcdylw.now.sh/pixel-hunter/stats/:${this.model.state.username}`).
+    window.fetch(`https://intensive-ecmascript-server-dxttmcdylw.now.sh/pixel-hunter/stats/${this.model.state.username}`).
         then(status).
         then((response) => response.json()).
         then((userData) => {
@@ -53,7 +53,7 @@ class GamePresenter {
 
   // запись статистики на сервер
   setUserStats() {
-    window.fetch(`https://intensive-ecmascript-server-dxttmcdylw.now.sh/pixel-hunter/stats/:${this.model.state.username}`, {
+    window.fetch(`https://intensive-ecmascript-server-dxttmcdylw.now.sh/pixel-hunter/stats/${this.model.state.username}`, {
       method: 'POST',
       body: JSON.stringify({
         'stats': this.model.state.stats,
