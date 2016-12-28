@@ -1,5 +1,5 @@
-import headerBack from './header-back';
 import {getResultStats} from '../util';
+import 'whatwg-fetch';
 
 export default (data) => {
 
@@ -92,9 +92,6 @@ export default (data) => {
   };
 
   const getStatsElement = () => {
-    const header = `<header class="header">
-      ${headerBack}
-    </header>`;
 
     const result = `<h1>${getResult()}</h1>`;
 
@@ -118,7 +115,6 @@ export default (data) => {
     </table>`;
 
     const statsElement = `
-      ${header}
       <div class="result">
         ${result}
         ${game1Result}

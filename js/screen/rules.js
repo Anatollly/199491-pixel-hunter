@@ -32,7 +32,8 @@ class RulesView extends AbstractView {
     const rulesInput = this.element.querySelector('.rules__input');
     rulesSubmit.addEventListener('click', (e) => {
       e.preventDefault();
-      Application.showGame();
+      const username = rulesInput.value;
+      Application.showGame(username);
     });
     rulesInput.oninput = () => {
       if (rulesInput.value) {

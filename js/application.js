@@ -3,6 +3,7 @@ import greetingView from './screen/greeting';
 import rulesView from './screen/rules';
 import gameView from './screen/game';
 import statsView from './screen/stats';
+import errorView from './screen/error';
 import {displayElement} from './util';
 import 'whatwg-fetch';
 
@@ -22,12 +23,16 @@ export default class Application {
     displayElement(rulesView());
   }
 
-  static showGame() {
-    displayElement(gameView(questData));
+  static showGame(user) {
+    displayElement(gameView(questData, user));
   }
 
   static showStats(data) {
     displayElement(statsView(data));
+  }
+
+  static showError(error) {
+    displayElement(errorView(error));
   }
 
   static set data(data) {

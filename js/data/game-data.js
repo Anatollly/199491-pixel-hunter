@@ -3,8 +3,12 @@ export const initialState = {
   lives: 3,
   stats: ['unknown', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown'],
   currentLevel: 0,
+  username: 'unknown'
 };
 
+export const setUser = (data, username) => {
+  return Object.assign({}, data, {username: username});
+};
 
 export const setLives = (data, lives) => {
   if (lives > initialState.lives) {

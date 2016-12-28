@@ -1,4 +1,4 @@
-import {initialState, setLives, setTimer, setStats, setLevel} from './game-data';
+import {initialState, setLives, setTimer, setStats, setLevel, setUser} from './game-data';
 
 const FAST_TIME = 20;
 const SLOW_TIME = 10;
@@ -23,6 +23,10 @@ export default class Model {
 
   get currentLevel() {
     return this.data[this._state.currentLevel];
+  }
+
+  setUsername(user) {
+    this._state = setUser(this._state, user);
   }
 
   resetGame() {

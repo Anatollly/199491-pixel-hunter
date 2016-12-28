@@ -1,6 +1,7 @@
 import LevelView from '../templates/level-view';
 import Application from '../application';
 import GameModel from '../data/model';
+import 'whatwg-fetch';
 
 class GamePresenter {
   constructor(model) {
@@ -31,11 +32,51 @@ class GamePresenter {
     this.changeLevel();
   }
 
+  // получение статистики с сервера
+  getUserStats() {
+    const status = (response) => {
+      if (response.status >= 200 && response.status < 300) {
+        return response;
+      } else {
+        throw new Error(`${response.status}: ${response.statusText}`);
+      }
+    };
+
+    window.fetch(`https://intensive-ecmascript-server-dxttmcdylw.now.sh/pixel-hunter/stats/:${this.model.state.username}`).
+        then(status).
+        then((response) => response.json()).
+        then((userData) => {
+          Application.showStats(userData);
+        }).
+        catch(Application.showError);
+  }
+
+  // запись статистики на сервер
+  setUserStats() {
+    window.fetch(`https://intensive-ecmascript-server-dxttmcdylw.now.sh/pixel-hunter/stats/:${this.model.state.username}`, {
+      method: 'POST',
+      body: JSON.stringify({
+        'stats': this.model.state.stats,
+        'lives': this.model.state.lives
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).
+        then((status) => {
+        }).
+        then(() => {
+          this.getUserStats();
+        }).
+        catch(Application.showError);
+  }
+
   // функция показывает следующий уровень или, при окончании жизней или завершении уровней, экран статистики
   showNextLevel() {
     clearInterval(this._timerID);
     if (this.model.gameOver() || this.model.finish()) {
-      Application.showStats(this.model.state);
+      this.setUserStats();
+      // Application.showStats(this.model.state);
     } else {
       this.model.nextLevel();
       this.startGame();
@@ -78,10 +119,11 @@ class GamePresenter {
 
 }
 
-export default (questData) => {
+export default (questData, user) => {
   const gameModel = new GameModel(questData);
   const game = new GamePresenter(gameModel);
   gameModel.resetGame();
+  gameModel.setUsername(user);
   game.startGame();
   return game.root;
 };
